@@ -1,0 +1,29 @@
+
+import time
+import pandas as pd
+
+# 빈 DataFrame 생성
+columns = ["Theta", "Phi", "Predicted Sequence", "Elapsed Time"]
+df_results = pd.DataFrame(columns=columns)
+
+# 각 샘플에 대한 예측과 연산 시간을 기록
+for theta, phi in zip(theta_samples, phi_samples):
+    start_time = time.time()
+    
+    # 모델을 사용하여 예측 실행
+    predicted = model.predict([[theta], [phi]])
+    end_time = time.time()
+    
+    elapsed_time = end_time - start_time
+    predicted_sequence = list(predicted[0])  # 첫 번째 예측 결과만 가져오기
+    
+    # DataFrame에 결과 추가
+    df_results = df_results.append({
+        "Theta": theta,
+        "Phi": phi,
+        "Predicted Sequence": predicted_sequence,
+        "Elapsed Time": elapsed_time
+    }, ignore_index=True)
+
+# 결과를 CSV 파일에 저장
+df_results.to_csv('your_directory/your_saved_results.csv', index=False)
