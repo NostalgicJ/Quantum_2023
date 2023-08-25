@@ -1,5 +1,6 @@
 ##############################################
 #   
+# 
 #   << Path finding by AStar Algorithm >>
 # 
 #     * coded by Gyuwon Ha (2023.06)
@@ -14,7 +15,8 @@
 #         s0 : Identity
 #         d0 : Speed of rotation on the z-axis (μs)
 #         dt : Time applied per pulse (μs)
-#         v0 : Spees of rotation by pulse (μs)
+#         v0 : Speed of rotation by pulse (μs)
+#         unitary_choiceList : Unitary operator choicelist preset
 #         (complex number = j = (-1)**0.5)
 # 
 #  
@@ -44,25 +46,34 @@
 #       [ data part ]
 #       [ starting part ]
 #  
+# 
 ##############################################
 
 
+# Standard libraries
+from datetime import datetime
+import heapq
+import os
+import random
+import time
+
+# Numeric and mathematical libraries
 from math import *
 import numpy as np
-from scipy import linalg
-from scipy.linalg import expm
-from qutip import *
-import random
-from datetime import datetime
-import time
-import pandas as pd
-import matplotlib.pyplot as plt
-from scipy.linalg import fractional_matrix_power
-from sklearn.feature_extraction.text import CountVectorizer
-import heapq
-import cmath
-import os
+from scipy.linalg import expm, fractional_matrix_power
 
+# Data analysis and processing libraries
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+
+# Visualization libraries
+import matplotlib.pyplot as plt
+
+# Quantum physics and related libraries
+from qutip import *
+
+
+##############################################
 
 
 #######################################
@@ -80,16 +91,6 @@ d0 = 0.15           # Arbitrary settings, Actual speed : 0.30rad/μs
 dt = 2.6 
 v0 = 0.02           # Arbitrary settings, Actual speed : 0.04rad/μs
 
-
-# x-rotation operater
-def Rx(theta):
-    return np.matrix([  [cos(theta/2),    -1j*sin(theta/2)],
-                        [-1j*sin(theta/2),    cos(theta/2)]])
-
-# z-rotation operater
-def Rz(phi): 
-    return np.matrix([  [cos(phi/2)-1j*sin(phi/2),  0],
-                        [0,  cos(phi/2)+1j*sin(phi/2)]])
 
 # unitary operator
 def unitary(dt, choice):
@@ -114,6 +115,26 @@ def unitary(dt, choice):
     return U_e
 
 
+#######################################
+
+# Set unitary choicelist as global variable 
+#   because unitary operators are used repeatedly.
+
+unitary_choiceList = [unitary(dt, i) for i in range(5)]
+    
+#######################################
+
+# x-rotation operater
+def Rx(theta):
+    return np.matrix([  [cos(theta/2),    -1j*sin(theta/2)],
+                        [-1j*sin(theta/2),    cos(theta/2)]])
+
+# z-rotation operater
+def Rz(phi): 
+    return np.matrix([  [cos(phi/2)-1j*sin(phi/2),  0],
+                        [0,  cos(phi/2)+1j*sin(phi/2)]])
+
+
 # Calculating the Fidelity
 def state_fidelity(rho_1, rho_2): 
     
@@ -131,7 +152,7 @@ def state_fidelity(rho_1, rho_2):
 # Caculating the Phase
 def phase_cal(x, y):
     
-    # Calculate phase from quadrant point of view
+    # Calculate phase from quadrant point of view.
     
     if y >= 0 and x >= 0:
         phase = atan(y/x)
@@ -172,83 +193,102 @@ class Node:
 # Using Astar Algorithm
 def Astar_Qsearch(init, target):
     
-    # A unitary operator is created in advance to reduce unnecessary operations.
-    choiceList = []
-    for i in range(5):
-        choiceList.append(unitary(dt, i))
-
-    # Initialize openList, closedList
-    maximum_len = 100000
+    # Precautions 
+    # Originally, we can determine whether A* for discrete nodes is the same point or not, 
+    #   but in the current system, the likelihood of the same point is almost zero.
+    # Points in similar positions should be recognized as the same points to increase search efficiency.
+    
+ 
+    # Initialize openList, closedList.
     openList = []
     closedList = []
 
-    # Add initial node to openList
+    # Add initial node to openList.
     heapq.heappush(openList, (init.f, init))
 
-    # Run until fidelity 0.99 is satisfied
+    # Open List Length Maximum Limit
+    maximum_len = 100000
+    
+    # Run until fidelity 0.99 is satisfied.
     iteration = 0
     while openList:
 
-
-        # 원래 이산적인 node에 대한 A*는 같은 점인지 아닌지를 판단할 수 있는데, 지금 시스템에서는 같은점일 가능성이 거의 제로이다.
-        # 비슷한 위치에 있는 점은 같은 점으로 인식해줘야 탐색 효율성을 높일 수 있다.
+        # In the beginning, even if you rotate, you can't move a lot, 
+        #   so just in case you recognize all of those points as the same point, 
+        #   you recognize that they are the same only when the fidelity of the two points is 0.99999 or higher.
+        # After the specific iteration, it is recognized that the fidelity 
+        #   between the points is equal if it is 0.99 or higher.
+        # As a strategy to acquire a lot of data, give up if you don't find the right answer within iteration.
         if iteration < 10: 
-            fid = 0.9999 # 초반에는 로테이션을 해도 많이 움직이지 못한다. 그런 점들을 모두 같은 점으로 인식해서는 안되므로 두 점의 fidelity가 0.9999이상일때만 같다고 인식.
+            fid = 0.9999
         elif iteration < 800:
-            fid = 0.99 # 후반에는 점들 사이의 fidelity가 0.99이상이면 같다고 인식.
+            fid = 0.99
         else :
-            return [-1] # 800회의 iteration 내에 정답을 찾지 못하면 포기. 데이터를 많이 획득하기 위한 전략.
-        
+            return [-1] 
 
-        # Get the node with the lowest f-score from the openList
+        # Get the node with the lowest f-score from the openList.
         _, currentNode = heapq.heappop(openList)
 
         # Add currentNode to closedList
         closedList.append(currentNode)
         
-        # 그냥 잘 돌아가는지 볼라고 넣음
-        print(currentNode.g,currentNode.h,currentNode.f)
+        # Verifying Code Progress
+        # print(currentNode.g,currentNode.h,currentNode.f)
         
-        
+        # Save and return path if fidelity 0.99 or higher.
         if state_fidelity(currentNode.density_matrix, target.density_matrix) > 0.99:
             path = []
             current = currentNode
+            
             while current is not None:
                 path.append(current.past_pulse)
                 current = current.parent
+                
             path = path[:len(path) - 1]
             path = path[::-1]
-            print(iteration)
+            
+            # Verifying Code Progress
+            # print(iteration)
+            
             return path
 
         children = []
         i = 0
-        for rotation in choiceList:
+        # Generating children according to rotation
+        for rotation in unitary_choiceList:
             NewDensityMatrix = rotation @ currentNode.density_matrix @ rotation.conj().T
             new_node = Node(currentNode, NewDensityMatrix, i)
-            i += 1
             children.append(new_node)
-
+            i += 1
+        
+        # Comparison by Child Case
         for child in children:
-            value = True
-            for closedNode in closedList:
-                if state_fidelity(child.density_matrix, closedNode.density_matrix) > fid:
-                    value = False
-                    break
-            if not value:
+            
+            # If the child(closedNode) is in the closedList with certain conditions, continue.
+            if any(state_fidelity(child.density_matrix, closedNode.density_matrix) > fid 
+                   for closedNode in closedList):
                 continue
+            
+            # Update g,h,f values of child
             child.g = currentNode.g + dt
             child.h = heuristic(child, target)
             child.f = child.g + child.h
 
-            # 자식이 openList에 있고, g값이 더 크면 continue
-            if any(child.f < openNode[0] and state_fidelity(child.density_matrix, openNode[1].density_matrix) > 0.999 and child.g > openNode[1].g
-                   for openNode in openList):
+            # If the child(openNode) is in the openList with certain conditions, continue.
+            if any(
+                child.f < openNode[0] and 
+                child.g > openNode[1].g and
+                state_fidelity(child.density_matrix, openNode[1].density_matrix) > 0.999
+                for openNode in openList
+            ):
                 continue
-
+            
+            # Add the child('s f) to the openList
             heapq.heappush(openList, (child.f, child))
 
         iteration += 1
+        
+        # Open list cut if open list maximum length limit is exceeded.
         if len(openList) > maximum_len:
             while len(openList) > maximum_len:
                 heapq.heappop(openList)
@@ -365,6 +405,6 @@ while True :
     # Create DataFrame and append to CSV file
     df = pd.DataFrame(output, columns=["Case", 'gate length', 'Theta', 'Phi', 'dt', 'combination', 
                                        'total time','computing time'])
-    df.to_csv(filename, mode='a', header=False, index=False)
+    df.to_csv(dir + filename, mode='a', header=False, index=False)
 
 
