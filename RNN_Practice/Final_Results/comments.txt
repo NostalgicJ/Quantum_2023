@@ -20,6 +20,9 @@
 
           sample_simpleRNN/simpleRNN_results.csv
           data_results/NVspin_SimpleRNN_data_results.csv
+          
+          sample_LSTM/LSTM_results.csv
+          sample_GRU/GRU_results.csv
      
 
      < Data Confirm(info, histogram) >
@@ -35,10 +38,17 @@
           NVspin_SimpleRNN_tuning.ipynb
           NVspin_Path_visualization.ipynb
 
+          NVspin_LSTM_final.ipynb
+          NVspin_LSTM_fidelity.ipynb
+          NVspin_GRU_final.ipynb
+          NVspin_GRU_fidelity.ipynb
+
 
      < Saved Models >
 
           saved_models/NVspin_SimpleRNN_model.h5
+          saved_models/NVspin_LSTM_model.h5
+          saved_models/NVspin_GRU_model.h5
 
 
      < Model Plots >
