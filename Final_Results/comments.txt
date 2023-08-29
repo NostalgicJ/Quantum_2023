@@ -1,0 +1,57 @@
+** Components
+
+
+     < Generating Data >
+
+          PathFindingByAstar_final.py
+
+
+     < Generated Data >
+
+          ../../Astar_results_dir/ByAstar_dt_{dt}_{Date}.csv
+
+
+     < Download pre-data >
+
+          ../../Data/using/dt_2.6/ByAstar_dt_2.6_modified.csv
+
+
+     < Upload post-data >
+
+          sample_simpleRNN/simpleRNN_results.csv
+          data_results/NVspin_SimpleRNN_data_results.csv
+          
+          sample_LSTM/LSTM_results.csv
+          sample_GRU/GRU_results.csv
+     
+
+     < Data Confirm(info, histogram) >
+
+          Data_Confirm.ipynb
+
+
+     < Modeling Files >
+
+          NVspin_SimpleRNN_final.ipynb
+          NVspin_SimpleRNN_using.ipynb
+          NVspin_SimpleRNN_fidelity.ipynb
+          NVspin_SimpleRNN_tuning.ipynb
+          NVspin_Path_visualization.ipynb
+
+          NVspin_LSTM_final.ipynb
+          NVspin_LSTM_fidelity.ipynb
+          NVspin_GRU_final.ipynb
+          NVspin_GRU_fidelity.ipynb
+
+
+     < Saved Models >
+
+          saved_models/NVspin_SimpleRNN_model.h5
+          saved_models/NVspin_LSTM_model.h5
+          saved_models/NVspin_GRU_model.h5
+
+
+     < Model Plots >
+
+          model_plot/SimpleRNN_model_plot.png
+
