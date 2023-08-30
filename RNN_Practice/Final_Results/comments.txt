@@ -35,13 +35,19 @@
           NVspin_SimpleRNN_final.ipynb
           NVspin_SimpleRNN_using.ipynb
           NVspin_SimpleRNN_fidelity.ipynb
+          NVspin_SimpleRNN_Real_fidelity.ipynb
           NVspin_SimpleRNN_tuning.ipynb
+
           NVspin_Path_visualization.ipynb
 
           NVspin_LSTM_final.ipynb
+          NVspin_LSTM_using.ipynb
           NVspin_LSTM_fidelity.ipynb
+          NVspin_LSTM_Real_fidelity.ipynb
           NVspin_GRU_final.ipynb
+          NVspin_GRU_using.ipynb
           NVspin_GRU_fidelity.ipynb
+          NVspin_GRU_Real_fidelity.ipynb
 
 
      < Saved Models >
@@ -54,4 +60,6 @@
      < Model Plots >
 
           model_plot/SimpleRNN_model_plot.png
+          model_plot/LSTM_model_plot.png
+          model_plot/GRU_model_plot.png
 
