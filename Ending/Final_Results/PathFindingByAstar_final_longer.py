@@ -222,7 +222,7 @@ def Astar_Qsearch(init, target):
         # As a strategy to acquire a lot of data, give up if you don't find the right answer within iteration.
         if iteration < 10: 
             fid = 0.9999
-        elif iteration < 10000:
+        elif iteration < 5000:
             fid = 0.99
         else :
             return [-1] 
