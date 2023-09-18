@@ -149,6 +149,33 @@ def state_fidelity(rho_1, rho_2):
         sqrt_rho_1 = fractional_matrix_power(rho_1, 1 / 2)
         fidelity = np.trace(fractional_matrix_power(sqrt_rho_1 @ rho_2 @ sqrt_rho_1, 1 / 2)) ** 2
         return np.real(fidelity)
+    
+
+def fidelity(target_theta, target_phi, predicted_sequence):
+    
+    target_U = Rz(target_phi) @ Rx(target_theta)
+    irho_target = target_U @ irho_init @ target_U.conj().T
+
+    predicted_sequence_indices = np.argmax(predicted_sequence, axis=-1)
+
+    Uni = s0
+    U_0 = unitary(dt, 0)
+    U_1 = unitary(dt, 1)
+    U_2 = unitary(dt, 2)
+    U_3 = unitary(dt, 3)
+    U_4 = unitary(dt, 4)
+    
+    pulse_list = [U_0, U_1, U_2, U_3, U_4]
+    
+    for i in predicted_sequence_indices[0]:
+        Uni = pulse_list[i] @ Uni
+
+    irho_final = Uni @ irho_init @ Uni.conj().T
+    
+    F = (state_fidelity(irho_final,irho_target))
+    
+    return  F
+
 
 # Caculating the Phase
 def phase_cal(x, y):
@@ -327,15 +354,17 @@ def heuristic(node, target):
 ##             main part             ##
 #######################################
 
+# Initial state
+init_wave = np.array([[1], [0]])
+irho_init = np.kron(init_wave, init_wave.conj().T)
+
 def main(target_theta, target_phi, predicted_comb) :
     
     
     # 수정 필요 predicted_comb 어떻게 넣을까
     
-    
-    # Initial state
-    init_wave = np.array([[1], [0]])
-    irho_init = np.kron(init_wave, init_wave.conj().T)
+    if fidelity(target_theta, target_phi, predicted_comb) > 99.99:
+        return predicted_comb, 0
     
     # Target state
     # Theta must move first and then phi move.
