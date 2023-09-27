@@ -1,0 +1,2 @@
+Case,gate length,Theta,Phi,DL combination,DL dt,DL fidelity,DL real time,DL computing time,Total combination,Total dt,Total fidelity,Total real time,Total computing time
+case0,35,2.3767638443047194,2.143035163640519,"[0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 2, 2, 4, 4, 1, 1, 3, 3, 2, 2, 4, 4, 1, 1, 3, 3, 2, 2, 4, 4, 1, 1, 3, 3]",2.6,0.99726,91.0,0.39132,"[0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 2, 2, 4, 4, 1, 1, 3, 3, 2, 2, 4, 4, 1, 1, 3, 3, 2, 2, 4, 4, 1, 1, 3, 3]",2.582065,0.9996257033938376,91.0,177.37479568511964
