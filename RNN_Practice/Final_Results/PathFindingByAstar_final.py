@@ -13,9 +13,9 @@
 # 
 #         sx, sy, sz : sigma x, sigma y, sigma z
 #         s0 : Identity
-#         d0 : Speed of rotation on the z-axis (μs)
+#         d0 : Speed of rotation on the z-axis (rad/μs)
 #         dt : Time applied per pulse (μs)
-#         v0 : Speed of rotation by pulse (μs)
+#         v0 : Speed of rotation by pulse (rad/μs)
 #         unitary_choiceList : Unitary operator choicelist preset
 #         (complex number = j = (-1)**0.5)
 # 
