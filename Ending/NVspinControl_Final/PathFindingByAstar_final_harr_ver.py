@@ -327,7 +327,7 @@ def heuristic(node, target):
 ##             main part             ##
 #######################################
 
-def main(target_rho, target_theta, target_phi, target_omega) :
+def main(target_rho, target_theta, target_phi) :
     
     # Initial state
     init_wave = np.array([[1], [0]])
@@ -353,9 +353,8 @@ def main(target_rho, target_theta, target_phi, target_omega) :
     # Result output
     print(f"""
     ------------------------------------------------------------------------------------------------------
-    theta = {target_theta[0]}
+    theta = {target_theta}
     phi = {target_phi}
-    omega = {target_omega}
     path : {path}
     computing_time : {computing_time}
     total_time : {total_time}
@@ -381,7 +380,7 @@ printdate = date.strftime('%Y%m%d_%H%M%S')
 filename = "/ByAstar_Rho_version_" + printdate + '.csv'
 
 # Create an empty DataFrame and write to CSV file
-df = pd.DataFrame(columns=["Case", 'gate length', 'Theta', 'Phi', 'Omega', 'dt', 'combination', 
+df = pd.DataFrame(columns=["Case", 'gate length', 'Theta', 'Phi', 'dt', 'combination', 
                            'total time', 'computing time'])
 df.to_csv(dir + filename, index=False)
 
@@ -406,29 +405,31 @@ sin_sampler = sin_prob_dist(a=0, b=np.pi)
 import pennylane as qml
 
 # Use the mixed state simulator to save some steps in plotting later
-dev = qml.device('default.mixed', wires=1)
+# qubit 으로 바꿈
+dev = qml.device('default.qubit', wires=1)
 
 @qml.qnode(dev)
-def haar_random_unitary(phi, theta, omega):
-    qml.Rot(phi, theta, omega, wires=0)
+def haar_random_unitary(phi, theta):
+    qml.Rot(phi, theta, 0, wires=0)
     return qml.state()
 
 while True : 
     case += 1
     
     theta = sin_sampler.rvs(size=1) # Sample theta from our new distribution
-    phi, omega = 2 * np.pi * np.random.uniform(size=2) # Sample phi and omega as normal
+    phi = 2 * np.pi * np.random.uniform(size=1) # Sample phi and omega as normal
     
-    rho = haar_random_unitary(phi, theta, omega)
+    rho = haar_random_unitary(phi, theta)
     
     print(rho)
     
-    path, computing_time = main(rho, theta, phi, omega)
-    output = [['case' + str(case), len(path), theta, phi, omega, dt, path, len(path)*dt, computing_time]]
+    path, computing_time = main(rho, theta[0], phi)
+    output = [['case' + str(case), len(path), theta, phi, dt, path, len(path)*dt, computing_time]]
     
     # Create DataFrame and append to CSV file
-    df = pd.DataFrame(output, columns=["Case", 'gate length', 'Theta', 'Phi', 'Omega', 'dt', 'combination', 
+    df = pd.DataFrame(output, columns=["Case", 'gate length', 'Theta', 'Phi', 'dt', 'combination', 
                                        'total time','computing time'])
     df.to_csv(dir + filename, mode='a', header=False, index=False)
 
 
+## theta 값 []형태 나옴 수정 필요
