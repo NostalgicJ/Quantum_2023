@@ -1,0 +1,2 @@
+Case,gate length,Theta,Phi,dt,combination,fidelity,total time,computing time
+case1,6,0.591545857,1.091643482,2.672,"[2, 4, 4, 4, 1, 1]",0.9990504844693522,16.032,51.50951433181763
