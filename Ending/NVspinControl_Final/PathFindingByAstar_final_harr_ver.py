@@ -416,15 +416,13 @@ case = 0
 while True : 
     case += 1
     
-    theta = sin_sampler.rvs(size=1) # Sample theta from our new distribution
+    theta = sin_sampler.rvs(size=1)             # Sample theta from our new distribution
     phi = 2 * np.pi * np.random.uniform(size=1) # Samphttps://docs.pennylane.ai/projects/lightning-gpu/en/latest/devices.htmlle phi and omega as normal
     
     rho = haar_random_unitary(phi, theta)
     
-    print(rho, rho.shape)
-    
-    path, computing_time = main(rho, theta[0], phi)
-    output = [['case' + str(case), len(path), theta[0], phi, dt, path, len(path)*dt, computing_time]]
+    path, computing_time = main(rho, theta[0], phi[0])
+    output = [['case' + str(case), len(path), theta[0], phi[0], dt, path, len(path)*dt, computing_time]]
     
     # Create DataFrame and append to CSV file
     df = pd.DataFrame(output, columns=["Case", 'gate length', 'Theta', 'Phi', 'dt', 'combination', 
