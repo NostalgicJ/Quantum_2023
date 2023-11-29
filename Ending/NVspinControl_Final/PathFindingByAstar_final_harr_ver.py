@@ -224,7 +224,7 @@ def Astar_Qsearch(init, target):
             fid = 0.9999
         elif iteration < 800:
             fid = 0.99
-        else :
+        else:
             return [-1] 
 
         # Get the node with the lowest f-score from the openList.
@@ -356,8 +356,8 @@ def main(target_rho, target_theta, target_phi) :
     theta = {target_theta}
     phi = {target_phi}
     path : {path}
-    computing_time : {computing_time}
     total_time : {total_time}
+    computing_time : {computing_time}
     ------------------------------------------------------------------------------------------------------
     """)
     
@@ -390,8 +390,6 @@ df.to_csv(dir + filename, index=False)
 ##           starting part           ##
 #######################################
 
-case = 0
-
 from scipy.stats import rv_continuous
 
 class sin_prob_dist(rv_continuous):
@@ -405,26 +403,28 @@ sin_sampler = sin_prob_dist(a=0, b=np.pi)
 import pennylane as qml
 
 # Use the mixed state simulator to save some steps in plotting later
-# qubit 으로 바꿈
-dev = qml.device('default.qubit', wires=1)
+# default.qubit < default.mixed
+dev = qml.device('default.mixed', wires=1)
 
 @qml.qnode(dev)
 def haar_random_unitary(phi, theta):
     qml.Rot(phi, theta, 0, wires=0)
-    return qml.state()
+    return qml.density_matrix(wires=0)
+
+case = 0
 
 while True : 
     case += 1
     
     theta = sin_sampler.rvs(size=1) # Sample theta from our new distribution
-    phi = 2 * np.pi * np.random.uniform(size=1) # Sample phi and omega as normal
+    phi = 2 * np.pi * np.random.uniform(size=1) # Samphttps://docs.pennylane.ai/projects/lightning-gpu/en/latest/devices.htmlle phi and omega as normal
     
     rho = haar_random_unitary(phi, theta)
     
-    print(rho)
+    print(rho, rho.shape)
     
     path, computing_time = main(rho, theta[0], phi)
-    output = [['case' + str(case), len(path), theta, phi, dt, path, len(path)*dt, computing_time]]
+    output = [['case' + str(case), len(path), theta[0], phi, dt, path, len(path)*dt, computing_time]]
     
     # Create DataFrame and append to CSV file
     df = pd.DataFrame(output, columns=["Case", 'gate length', 'Theta', 'Phi', 'dt', 'combination', 
@@ -433,3 +433,4 @@ while True :
 
 
 ## theta 값 []형태 나옴 수정 필요
+## https://docs.pennylane.ai/projects/lightning-gpu/en/latest/devices.html -> gpu 사용시
