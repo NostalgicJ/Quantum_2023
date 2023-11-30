@@ -352,13 +352,13 @@ def main(target_rho, target_theta, target_phi) :
 
     # Result output
     print(f"""
-    ------------------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------------------------------
     theta = {target_theta}
     phi = {target_phi}
     path : {path}
     total_time : {total_time}
     computing_time : {computing_time}
-    ------------------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------------------------------
     """)
     
     return path, computing_time
@@ -377,7 +377,7 @@ if not os.path.exists(dir):
 # CSV file name setup
 date = datetime.now()
 printdate = date.strftime('%Y%m%d_%H%M%S')
-filename = "/ByAstar_Rho_version_H3_Omega_" + printdate + '.csv'
+filename = "/ByAstar_Rho_version_H3_" + printdate + '.csv'
 
 # Create an empty DataFrame and write to CSV file
 df = pd.DataFrame(columns=["Case", 'gate length', 'Theta', 'Phi', 'Omega', 'dt', 'combination', 
