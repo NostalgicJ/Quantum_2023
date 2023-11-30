@@ -377,7 +377,7 @@ if not os.path.exists(dir):
 # CSV file name setup
 date = datetime.now()
 printdate = date.strftime('%Y%m%d_%H%M%S')
-filename = "/ByAstar_Rho_version_H2_" + printdate + '.csv'
+filename = "/ByAstar_Rho_version_H3_Omega_" + printdate + '.csv'
 
 # Create an empty DataFrame and write to CSV file
 df = pd.DataFrame(columns=["Case", 'gate length', 'Theta', 'Phi', 'Omega', 'dt', 'combination', 
@@ -425,7 +425,7 @@ while True :
     
     phi = 2 * np.pi * np.random.uniform(0, 1)
     theta = np.arccos(1 - 2 * np.random.uniform(0, 1))
-    omega = omega_sampler.rvs(size=1, random_state=None)
+    omega = 2 * np.pi * np.random.uniform(0, 1)
     
     rho = haar_random_unitary(phi, theta, omega)
     
