@@ -237,9 +237,11 @@ def Astar_Qsearch(init, target):
         # print(currentNode.g,currentNode.h,currentNode.f)
         
         # Save and return path if fidelity 0.99 or higher.
-        if state_fidelity(currentNode.density_matrix, target.density_matrix) > 0.99:
+        if state_fidelity(currentNode.density_matrix, target.density_matrix) > 0.990001:
             path = []
             current = currentNode
+            
+            print(current)
             
             while current is not None:
                 path.append(current.past_pulse)
@@ -249,7 +251,12 @@ def Astar_Qsearch(init, target):
             path = path[::-1]
             
             # Verifying Code Progress
-            # print(iteration)
+            print(iteration)
+            print(path)
+            print(state_fidelity(currentNode.density_matrix, target.density_matrix))
+            print(current)
+            print(currentNode)
+            print(current.parent)
             
             return path
 
