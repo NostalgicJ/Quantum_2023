@@ -251,12 +251,13 @@ def Astar_Qsearch(init, target):
             path = path[::-1]
             
             # Verifying Code Progress
+            print("     #######")
             print(iteration)
+            print(currentNode.density_matrix)
+            print(target.density_matrix)
             print(path)
             print(state_fidelity(currentNode.density_matrix, target.density_matrix))
-            print(current)
-            print(currentNode)
-            print(current.parent)
+            print("     #######")
             
             return path
 
@@ -334,7 +335,7 @@ def heuristic(node, target):
 ##             main part             ##
 #######################################
 
-def main(target_rho, target_theta, target_phi) :
+def main(target_rho, target_theta, target_phi, target_omega) :
     
     # Initial state
     init_wave = np.array([[1], [0]])
@@ -362,6 +363,7 @@ def main(target_rho, target_theta, target_phi) :
     -------------------------------------------------------------------------------------------------------------
     theta = {target_theta}
     phi = {target_phi}
+    omega = {target_omega}
     path : {path}
     total_time : {total_time}
     computing_time : {computing_time}
@@ -436,7 +438,7 @@ while True :
     
     rho = haar_random_unitary(phi, theta, omega)
     
-    path, computing_time = main(rho, theta, phi)
+    path, computing_time = main(rho, theta, phi, omega)
     output = [['case' + str(case), len(path), theta, phi, omega, dt, path, len(path)*dt, computing_time]]
     
     # Create DataFrame and append to CSV file
