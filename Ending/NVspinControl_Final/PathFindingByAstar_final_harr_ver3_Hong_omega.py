@@ -386,7 +386,7 @@ if not os.path.exists(dir):
 # CSV file name setup
 date = datetime.now()
 printdate = date.strftime('%Y%m%d_%H%M%S')
-filename = "/ByAstar_Rho_version_H3_" + printdate + '.csv'
+filename = "/ByAstar_Rho_version_H3_Omega_" + printdate + '.csv'
 
 # Create an empty DataFrame and write to CSV file
 df = pd.DataFrame(columns=["Case", 'gate length', 'Theta', 'Phi', 'Omega', 'dt', 'combination', 
