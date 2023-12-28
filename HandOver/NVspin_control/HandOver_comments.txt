@@ -1,0 +1,186 @@
+** Components
+
+
+     < 001_Path_Finder_AStar >
+
+          : All codes and data results related to A*-based NV spin path search
+
+
+          << 011_Coded_By_Qwon_Edited_By_Yeojung >>
+               :  Final code created by modifying Qwon's code
+
+                    - NVspin_ver_Path_visualization.ipynb
+                         : Code to visualize the pulse path of NV spin on the Block sphere
+                              ... theta/phi/dt/sequence required
+               
+                    - PathFindingByAstar_final.py
+                         : Code to find the optimal pulse path by estimating heuristic based on A* algorithm
+                              ... Save samples in real-time csv file with infinite repetition, 
+                                   stop code execution when desired
+          
+
+          << 012_By_Yeojung >>
+               : Final code created by Yeojung
+
+                    - Check_sample_fidelity.ipynb
+                         : A sample's fidelity verifiable code
+                              ... theta/phi/dt/sequence required
+                 
+                    - Haar_measure_test_ref-pennylane.ipynb
+                         : Haar measure test code referenced on the pennylane information website
+               
+                    - PathFindingByAstar_final_harr_ver.py
+                         : Sampling Random targets uniformly by adding Haarmeasure method to existing A* code
+                              ... Save samples in real-time csv file with infinite repetition, 
+                                   stop code execution when desired
+
+
+                    <<< Code_Utilized >>>
+                         : Utilized code completed with some modifications based on the above-mentioned codes
+
+                         - NVspin_ver_Path_visualization_omega.ipynb
+                              : Modified code from the existing visualization code 
+                                   NVspin_ver_Path_visualization.ipynb to apply the omega value
+                                   ... theta/phi/omega/dt/sequence required
+                         
+                         - PathFindingByAstar_final_haar_ver_part_long.py
+                              : For missing sections seen in the A* code with haar measure applied, 
+                                   the code that increased the number of times to explore for a long time, 
+                                   limited to missing sections
+                                   ... Save samples in real-time csv file with infinite repetition, 
+                                        stop code execution when desired
+                         
+                         - PathFindingByAstar_final_haar_ver_pi.pys
+                              : Data verification code with theta only pi in the A* code applied haar measure
+                                   ... Save samples in real-time csv file with infinite repetition, 
+                                        stop code execution when desired
+                         
+                         - PathFindingByAstar_final_longer.py
+                              : Code that has increased in number to make the search longer 
+                                   for all sections than the existing A* code
+                                   ... Save samples in real-time csv file with infinite repetition, 
+                                        stop code execution when desired
+
+
+                    <<< Data >>>
+                         : A* related csv type data and code for data analysis and organization
+
+
+                         <<<< Haar_measure_Omega >>>>
+                              : CSV file with Omega column as sample result from A* code applied Haarmeasure
+
+
+                              <<<<< dt_test >>>>>
+                                   : Sample results selected by correcting d0 under the hypothesis 
+                                        that the cause of the missing interval from the existing A* code is d0, 
+                                        the coefficient of RZ
+
+                                   - d0=0.10/data_concatenated_20231228_153345.csv
+                                        : When the previous d0 was modified from 0.15 to 0.10
+
+                                   - d0=0.12/data_concatenated_20231228_153348.csv
+                                        : When the previous d0 was modified from 0.15 to 0.12
+
+                                   - d0=0.20/data_concatenated_20231228_153628.csv
+                                        : When the previous d0 was modified from 0.15 to 0.20
+
+
+                              <<<<< raw >>>>>
+                                   : Unprocessed code that comes directly out of the A* code
+                                   
+                                   - ***************************** 수정 예정 *************************
+
+
+                              <<<<< usable >>>>>
+                                   : Processed, ready-to-learn code
+
+                                   - ***************************** 수정 예정 *************************
+
+
+                         <<<< Non-Haar_measure_None_Omega >>>>
+                              : File without Omega column as sample result from existing A* code
+
+                              
+                              <<<<< supplemental_data_for_ref >>>>>
+                                   : Data for reference
+                              
+                                   - new_data_vacanted.csv
+                                        : Additional data for missing intervals
+
+                                   - NVspinData_230807.xlsx
+                                        : 230807 Date NVspin Data Excel Version (removed [-1])
+                                   
+                                   - too_much_part.csv
+                                        : Additional missing interval data taken out by too many
+
+
+                              <<<<< using >>>>>
+                                   : Data used/available for model learning
+
+                                   - dt_2.6/ByAstar_dt_2.6_1130.csv
+                                        : Most recent data used for model learning
+                                             ... The rest of the files were used for model learning 
+                                                  with data from that date
+
+                         <<<< Tool >>>>
+                              : csv file editing and organization code
+
+
+
+     < 002_DeepLearning_model >
+
+          ../../Astar_results_dir/ByAstar_dt_{dt}_{Date}.csv
+
+
+     < 003_Universal_LocalOptimizer >
+
+          ../../Data/using/dt_2.6/ByAstar_dt_2.6_modified.csv
+
+
+     < Upload post-data >
+
+          sample_simpleRNN/simpleRNN_results.csv
+          data_results/NVspin_SimpleRNN_data_results.csv
+          
+          sample_LSTM/LSTM_results.csv
+          sample_GRU/GRU_results.csv
+     
+
+     < Data Confirm(info, histogram) >
+
+          Data_Confirm.ipynb
+
+
+     < Modeling Files >
+
+          NVspin_SimpleRNN_final.ipynb
+          NVspin_SimpleRNN_using.ipynb
+          NVspin_SimpleRNN_fidelity.ipynb
+          NVspin_SimpleRNN_Real_fidelity.ipynb
+          NVspin_SimpleRNN_tuning.ipynb
+
+          NVspin_Path_visualization.ipynb
+
+          NVspin_LSTM_final.ipynb
+          NVspin_LSTM_using.ipynb
+          NVspin_LSTM_fidelity.ipynb
+          NVspin_LSTM_Real_fidelity.ipynb
+          NVspin_GRU_final.ipynb
+          NVspin_GRU_using.ipynb
+          NVspin_GRU_fidelity.ipynb
+          NVspin_GRU_Real_fidelity.ipynb
+
+
+     < Saved Models >
+
+          saved_models/NVspin_SimpleRNN_model.h5
+          saved_models/NVspin_LSTM_model.h5
+          saved_models/NVspin_GRU_model.h5
+
+
+     < Model Plots >
+
+          model_plot/SimpleRNN_model_plot.png
+          # model_plot/LSTM_model_plot.png
+          # model_plot/GRU_model_plot.png
+

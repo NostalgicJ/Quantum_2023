@@ -399,7 +399,10 @@ case = 0
 
 while True : 
     case += 1
+    
+    # 원하는 범위(결측 구간) 설정하여 랜덤으로 데이터 생성
     theta, phi = (pi/180)*random.uniform(90, 120), (pi/180)*random.uniform(0, 360)
+    
     path, computing_time = main(theta, phi)
     output = [['case' + str(case), len(path), theta, phi, dt, path, len(path)*dt, computing_time]]
     
