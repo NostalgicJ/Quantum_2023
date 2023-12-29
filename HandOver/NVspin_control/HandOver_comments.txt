@@ -50,7 +50,7 @@
                                    ... Save samples in real-time csv file with infinite repetition, 
                                         stop code execution when desired
                          
-                         - PathFindingByAstar_final_haar_ver_pi.pys
+                         - PathFindingByAstar_final_haar_ver_pi.py
                               : Data verification code with theta only pi in the A* code applied haar measure
                                    ... Save samples in real-time csv file with infinite repetition, 
                                         stop code execution when desired
@@ -122,65 +122,168 @@
                                              ... The rest of the files were used for model learning 
                                                   with data from that date
 
+                                   - ByAstar_dt_3.csv, ByAstar_dt_5.csv
+                                        : Qwon experimented with changing the value of dt
+                                             ... For your information
+
+
                          <<<< Tool >>>>
                               : csv file editing and organization code
 
 
+                              <<<<< Checker >>>>>
+                                   : Code for checking and analyzing information contained in csv file
+
+                                   - New_data_confirm.ipynb
+                                        : Data consisting of values with omega (equal to functionality), 
+                                             unlike traditional A* codes
+                                   
+                                   - Original_data_confirm.ipynb
+                                        : Data consisting of existing A* code values (equal to functionality)
+
+
+                              <<<<< Concatenate >>>>>
+                                   : Code that combines csv files
+
+                                   - concat_files.ipynb
+                                        : Brief view of data information and merge into new files
+                                   
+                                   - csv_adding.bat
+                                        : A file that utilizes Windows Notepad that can be downloaded and 
+                                             used on your local computer
+                                             ... Googling recommended for additional information
+
 
      < 002_DeepLearning_model >
+          : All codes related to deep learning (machine learning)
 
-          ../../Astar_results_dir/ByAstar_dt_{dt}_{Date}.csv
+
+          << Cuda_GPU >>
+               : Reference when using Cuda for GPU
+
+               - Cuda_Actual_Using_test.ipynb
+                    : Code to test if actual GPUs are being used with Cuda
+
+               - GPGPU_Reference_websites.txt
+                    : The website that the author referred to when setting up Cuda for GPU use 
+                         ... (may vary from user environment to user, 
+                              but this author was connected from the server through the server computer, 
+                              so it was a WSL-Ubuntu environment)
+
+
+          << Learning_Code >>
+               : Files relating to model learning
+
+
+               <<< saved_models >>>
+                    : As a result of the model learning code, the model is saved as a file in the form .h5, 
+                         which is a filename extension of the model
+
+                    - NVspin_GRU_model_Rho.h5
+                         : A model trained in Rho (matrix) form (not available)
+                              ... Difficult to use due to issues related to complex numbers
+
+                    - NVspin_GRU_model_Rho2RealNumber.h5
+                         : A model trained only with real numbers, the coefficients of each axis 
+                              that occur when rho is split so as not to use matrix
+                              ... theta_x, theta_y, theta_z 
+                                   Calculated using only theta and phi
+
+
+          << Result >>
+               : Outcome from the code for learning the model
+
+
+               <<< Data_from_Model >>>
+                    : Csv file that stores part of the model's validation dataset
+
+                    - GRU_results_Rho.csv
+                         : Sample results from models trained in Rho(matrix) format
+
+                    - GRU_results_Rho2RealNum.csv
+                         : Sample of the results of the model trained in real number form
+               
+
+               <<< Plot_Model >>>
+                    : Visualize learning model structure
+
+                         - ***************************** 수정 예정 *************************
+
+
+          << RNN_comparison_None_Rho_for_ref >>
+               : Data related to models that conducted learning only with theta and phi without Rho form
+                    ... Recommend checking the code only as a reference
+               
+
+               <<< data_results >>>
+                    : Csv file that stores part of the model's validation dataset
+                         ... Results of using each model of SimpleRNN, LSTM, and GRU
+
+
+               <<< model_plot >>>
+                    : Model structure of SimpleRNN, LSTM, and GRU respectively
+
+
+               <<< saved_models >>>
+                    : Models that are the result of model learning codes 
+                         in the 'trial' and 'trial_upgrade_version' folders
+
+
+               <<< trial >>>
+                    : For each SimpleRNN, LSTM, and GRU, 
+                         the codes that can check the learning code, the fidelity and the structure 
+                         can be checked, respectively
+                         ... Cuda usage version is listed as 'cuda'
+                              Code that only model learning without cuda or separate tuning is listed as 'final'
+                              Structural verifiable version is listed as 'graph'
+                              The upgraded version with a slight learning rate tuning is listed as 'Learning Rate'
+                              The version inputting existing A* result data into the model is listed as 'Real'
+                              The version that inputs completely random data into the model is listed as 'random'
+
+
+               <<< trial_upgrade_version >>>
+                    : Code that was manually tuned (you can ignore it)
+
+
+               <<< Tuning_Code(imcompleted) >>>
+                    : Code for tuning the entire model at once (unfinished)
+
+
+          << Using_Code >>
+               : Code using output models from 'Learning_Code' folder
+                    ... (If you want to save model usage results, refer to 'using' code in folder
+                         'HandOver/NVspin_control/002_DeepLearning_model/
+                         RNN_parison_None_Rho_for_ref/trials')                  
+
+               - NVspin_GRU_Rho_fidelity.ipynb
+                    : Code to verify fidelity using NVspin_GRU_model_Rho.h5 
+                         (for code reference as it is unavailable due to an error)
+               
+               - NVspin_GRU_Rho2RealNumber_fidelity.ipynb
+                    : Code to verify fidelity using NVspin_GRU_model_Rho2RealNumber.h5
 
 
      < 003_Universal_LocalOptimizer >
-
-          ../../Data/using/dt_2.6/ByAstar_dt_2.6_modified.csv
-
-
-     < Upload post-data >
-
-          sample_simpleRNN/simpleRNN_results.csv
-          data_results/NVspin_SimpleRNN_data_results.csv
-          
-          sample_LSTM/LSTM_results.csv
-          sample_GRU/GRU_results.csv
-     
-
-     < Data Confirm(info, histogram) >
-
-          Data_Confirm.ipynb
+          : Local optimizer that has been tried to make it usable even if it's not NV spin
 
 
-     < Modeling Files >
-
-          NVspin_SimpleRNN_final.ipynb
-          NVspin_SimpleRNN_using.ipynb
-          NVspin_SimpleRNN_fidelity.ipynb
-          NVspin_SimpleRNN_Real_fidelity.ipynb
-          NVspin_SimpleRNN_tuning.ipynb
-
-          NVspin_Path_visualization.ipynb
-
-          NVspin_LSTM_final.ipynb
-          NVspin_LSTM_using.ipynb
-          NVspin_LSTM_fidelity.ipynb
-          NVspin_LSTM_Real_fidelity.ipynb
-          NVspin_GRU_final.ipynb
-          NVspin_GRU_using.ipynb
-          NVspin_GRU_fidelity.ipynb
-          NVspin_GRU_Real_fidelity.ipynb
+          << BFGS(incompleted) >>
+               : Attempts to apply BFGS algorithms for more efficient local optimizers (unfinished)
+                    ... Low chance of success due to non-continuous and discrete sequence variables
+                         / Upgrade version in numeric order
 
 
-     < Saved Models >
+          << Simple_Iteration >>
+               : File associated with local optimizer that finds the best dt and sequence 
+                    by brute force but simply repeating it
+               
 
-          saved_models/NVspin_SimpleRNN_model.h5
-          saved_models/NVspin_LSTM_model.h5
-          saved_models/NVspin_GRU_model.h5
+               <<< Data/raw >>>
+                    : Results(unprocessed) of using real data 
+                         (from A*, not deep learning models, ensuring 99% fidelity satisfaction) 
+                         in local optimizer
+               
 
-
-     < Model Plots >
-
-          model_plot/SimpleRNN_model_plot.png
-          # model_plot/LSTM_model_plot.png
-          # model_plot/GRU_model_plot.png
+               - LocalOptimizer_simple_iteration.ipynb
+                    : Local optimizer code that optimizes dt and sequence with simple iteration
 
