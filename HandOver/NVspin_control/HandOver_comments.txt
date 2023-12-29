@@ -88,13 +88,23 @@
                               <<<<< raw >>>>>
                                    : Unprocessed code that comes directly out of the A* code
                                    
-                                   - ***************************** 수정 예정 *************************
+                                   - ByAstar_Rho_version_H3_Omega_theta_pi_20231205_142107.csv
+                                        : Fix theta to pi value and data that comes out 
+                                             when Omega is completely random (check the bloch sphere)
+
+                                   - Desktop_concatenated_20231229_172024.csv
+                                        : More than 10,000 sample data from the desktop (remove [-1])
+
+                                   - Vacanted_data_concatenated_20231228_150913.csv
+                                        : Sample data with a separate data missing interval (remove [-1])
 
 
                               <<<<< usable >>>>>
                                    : Processed, ready-to-learn code
 
-                                   - ***************************** 수정 예정 *************************
+                                   - ByAstar_dt_2.6_Omega_1229.csv
+                                        : Learningable code with a relatively uniformity 
+                                             by applying haar measure and an omega value
 
 
                          <<<< Non-Haar_measure_None_Omega >>>>
@@ -174,6 +184,14 @@
           << Learning_Code >>
                : Files relating to model learning
 
+               - NVspin_GRU_Rho.ipynb
+                    : Model learning code trained in Rho (matrix) form
+                         ... Unavailable
+
+               - NVspin_GRU_Rho2RealNumber.ipynb
+                    : Model learning code trained only with real numbers, which are the coefficients of each axis
+                         ... that can be applied to real-world situations
+
 
                <<< saved_models >>>
                     : As a result of the model learning code, the model is saved as a file in the form .h5, 
@@ -207,7 +225,11 @@
                <<< Plot_Model >>>
                     : Visualize learning model structure
 
-                         - ***************************** 수정 예정 *************************
+                         - GRU_Rho_model_plot.png
+                              : the structure of NVspin_GRU_model_Rho.h5
+                         
+                         - GRU_Rho2RealNumber_model_plot.png
+                              : the structure of NVspin_GRU_model_Rho2RealNumber.h5
 
 
           << RNN_comparison_None_Rho_for_ref >>
@@ -277,13 +299,12 @@
                : File associated with local optimizer that finds the best dt and sequence 
                     by brute force but simply repeating it
                
+               - LocalOptimizer_simple_iteration.ipynb
+                    : Local optimizer code that optimizes dt and sequence with simple iteration
+ 
 
                <<< Data/raw >>>
                     : Results(unprocessed) of using real data 
                          (from A*, not deep learning models, ensuring 99% fidelity satisfaction) 
                          in local optimizer
                
-
-               - LocalOptimizer_simple_iteration.ipynb
-                    : Local optimizer code that optimizes dt and sequence with simple iteration
-
